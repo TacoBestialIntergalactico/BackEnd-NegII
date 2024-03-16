@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use app\Http\Controllers\CategoryController;
+use app\Http\Controllers\ProductsController;
+use app\Http\Controllers\ShoppingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +20,17 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/indexCategory', [CategoryController::class, 'index']);
+Route::get('/indexProducts', [ProductsController::class, 'index']);
+Route::get('/indexShopping', [ShoppingController::class, 'index']);
+
+Route::post('/storeCategory', [CategoryController::class, 'store']);
+Route::post('/storeProducts', [ProductsController::class, 'store']);
+Route::post('/storeShopping', [ShoppingController::class, 'store']);
+
+Route::post('/destroyCategory', [CategoryController::class, 'destroy']);
+Route::post('/destroyProducts', [ProductsController::class, 'destroy']);
+Route::post('/destroyShopping', [ShoppingController::class, 'destroy']);
+
+

@@ -13,6 +13,9 @@ class ShoppingController extends Controller
     public function index()
     {
         //
+        $shoppings=shoppings::all();
+        return $shoppings;
+
     }
 
     /**
@@ -29,6 +32,16 @@ class ShoppingController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'Quantity'=>'required',
+            'IdUserFk'=>'required',
+            'IdProductFk'=>'required'
+        ]);
+        $shoppings=shoppings::create([
+            'Quantity'=>$request->Quantity,
+            'IdUserFk'=>$request->IdUserFk,
+            'IdProductFk'=>$request->IdProductFk
+        ]);
     }
 
     /**
@@ -58,8 +71,8 @@ class ShoppingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Shopping $shopping)
+    public function destroy(String $id)
     {
-        //
+        shoppings::destroy($id);
     }
 }

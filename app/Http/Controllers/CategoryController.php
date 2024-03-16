@@ -13,6 +13,8 @@ class CategoryController extends Controller
     public function index()
     {
         //
+        $categories = categories::all();
+        return $categories;
     }
 
     /**
@@ -29,6 +31,12 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+        $request-> validate([
+            'Name'=>'require'
+        ]);
+        $categories = categories::create([
+            'Name'=> $request->Name
+        ]);
     }
 
     /**
@@ -58,8 +66,9 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(String $id)
     {
         //
+        categories::destroy($id);
     }
 }

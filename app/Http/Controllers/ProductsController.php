@@ -13,6 +13,8 @@ class ProductsController extends Controller
     public function index()
     {
         //
+        $products=products::all();
+        return $products;
     }
 
     /**
@@ -29,6 +31,20 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'Name'=>'required',
+            'Description'=>'required',
+            'Price'=>'required',
+            'Image'=>'required',
+            'IdcategoriesFK'=> 'required'
+        ]);
+        $products=products::create([
+            'Name'=>$request->Name,
+            'Description'=>$request->Description,
+            'Price'=>$request->Price,
+            'Image'=>$request->Image,
+            'IdcategoriesFK'=> $request->IdcategoriesFK
+        ]);
     }
 
     /**
@@ -58,8 +74,9 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Products $products)
+    public function destroy(String $id)
     {
         //
+        products::destroy($id);
     }
 }
