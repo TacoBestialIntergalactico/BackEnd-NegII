@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Products;
+use Exception;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -13,8 +14,8 @@ class ProductsController extends Controller
     public function index()
     {
         //
-        $products=products::all();
-        return $products;
+        $products = products::all();
+        return response()->json($products);
     }
 
     /**
@@ -25,26 +26,29 @@ class ProductsController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-        $request->validate([
-            'Name'=>'required',
-            'Description'=>'required',
-            'Price'=>'required',
-            'Image'=>'required',
-            'IdcategoriesFK'=> 'required'
-        ]);
-        $products=products::create([
-            'Name'=>$request->Name,
-            'Description'=>$request->Description,
-            'Price'=>$request->Price,
-            'Image'=>$request->Image,
-            'IdcategoriesFK'=> $request->IdcategoriesFK
-        ]);
+        try {
+            echo("entre");
+            $request->validate([
+                'Name' => 'required',
+                'Description' => 'required',
+                'Price' => 'required',
+                'Image' => 'required',
+                'IdcategoriesFK' => 'required'
+            ]);
+
+            $products = products::create([
+                'Name' => $request->Name,
+                'Description' => $request->Description,
+                'Price' => $request->Price,
+                'Image' => $request->Image,
+                'IdcategoriesFK' => $request->IdcategoriesFK
+            ]);
+            return response()->json(["succes" => 'product stored: ' + $products], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error ocurred when trying to store: ' + $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -66,9 +70,33 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Products $products)
+    public function update(Request $request, string $id)
     {
-        //
+        try {
+            $product = Products::findOrFail($id);
+
+            $request->validate([
+                'Name' => 'required',
+                'Description' => 'required',
+                'Price' => 'required',
+                'Image' => 'required',
+                'IdcategoriesFK' => 'required'
+            ]);
+
+            $product->update([
+                'Name' => $request->Name,
+                'Description' => $request->Description,
+                'Price' => $request->Price,
+                'Image' => $request->Image,
+                'IdcategoriesFK' => $request->IdcategoriesFK
+            ]);
+
+            // Rest of your code (if any) goes here...
+
+            return response()->json(["success" => "Product updated successfully"], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while updating: ' . $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -76,7 +104,11 @@ class ProductsController extends Controller
      */
     public function destroy(String $id)
     {
-        //
-        products::destroy($id);
+        try {
+            products::destroy($id);
+            return response()->json(["success" => "success while deleting"], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error ocurred when trying to delete: ' + $e->getMessage()], 500);
+        }
     }
 }
