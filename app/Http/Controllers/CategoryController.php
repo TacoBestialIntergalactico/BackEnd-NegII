@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -13,7 +14,7 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $categories = categories::all();
+        $categories = DB::table('categories')->get();
         return $categories;
     }
 
@@ -34,7 +35,7 @@ class CategoryController extends Controller
         $request-> validate([
             'Name'=>'require'
         ]);
-        $categories = categories::create([
+        $categories = Category::create([
             'Name'=> $request->Name
         ]);
     }
@@ -69,6 +70,6 @@ class CategoryController extends Controller
     public function destroy(String $id)
     {
         //
-        categories::destroy($id);
+        Category::destroy($id);
     }
 }
