@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Shopping extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+    protected $fillable = ['Quantity', 'IdUserFk', 'IdProductFk'];
 
     public function user(): BelongsTo
     {

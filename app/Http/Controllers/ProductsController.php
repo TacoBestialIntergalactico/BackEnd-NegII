@@ -14,7 +14,7 @@ class ProductsController extends Controller
     public function index()
     {
         //
-        $products = products::all();
+        $products = Products::all();
         return response()->json($products);
     }
 
@@ -37,7 +37,7 @@ class ProductsController extends Controller
                 'IdcategoriesFK' => 'required'
             ]);
 
-            $products = products::create([
+            $product = Products::create([
                 'Name' => $request->Name,
                 'Description' => $request->Description,
                 'Price' => $request->Price,
@@ -90,22 +90,22 @@ class ProductsController extends Controller
                 'IdcategoriesFK' => $request->IdcategoriesFK
             ]);
 
-            return response()->json(["succes" => 'product stored: ' + $product], 200);
+            return response()->json(["success" => 'Product updated: ' . $product], 200);
         } catch (Exception $e) {
-            return response()->json(['error' => 'An error ocurred when trying to store: ' + $e->getMessage()], 500);
+            return response()->json(['error' => 'An error occurred when trying to update: ' . $e->getMessage()], 500);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(String $id)
+    public function destroy(string $id)
     {
         try {
-            products::destroy($id);
-            return response()->json(["succes" => 'product deleted ' ], 200);
+            Products::destroy($id);
+            return response()->json(["success" => 'Product deleted'], 200);
         } catch (Exception $e) {
-            return response()->json(['error' => 'An error ocurred when trying to store: ' + $e->getMessage()], 500);
+            return response()->json(['error' => 'An error occurred when trying to delete: ' . $e->getMessage()], 500);
         }
     }
 }
