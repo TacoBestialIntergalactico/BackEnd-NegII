@@ -90,11 +90,9 @@ class ProductsController extends Controller
                 'IdcategoriesFK' => $request->IdcategoriesFK
             ]);
 
-            // Rest of your code (if any) goes here...
-
-            return response()->json(["success" => "Product updated successfully"], 200);
+            return response()->json(["succes" => 'product stored: ' + $product], 200);
         } catch (Exception $e) {
-            return response()->json(['error' => 'An error occurred while updating: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'An error ocurred when trying to store: ' + $e->getMessage()], 500);
         }
     }
 
@@ -105,9 +103,9 @@ class ProductsController extends Controller
     {
         try {
             products::destroy($id);
-            return response()->json(["success" => "success while deleting"], 200);
+            return response()->json(["succes" => 'product deleted ' ], 200);
         } catch (Exception $e) {
-            return response()->json(['error' => 'An error ocurred when trying to delete: ' + $e->getMessage()], 500);
+            return response()->json(['error' => 'An error ocurred when trying to store: ' + $e->getMessage()], 500);
         }
     }
 }
