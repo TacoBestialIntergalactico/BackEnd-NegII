@@ -29,7 +29,6 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         try {
-            echo("entre");
             $request->validate([
                 'Name' => 'required',
                 'Description' => 'required',

@@ -13,7 +13,7 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $categories = categories::all();
+        $categories = Category::all();
         return $categories;
     }
 
@@ -34,7 +34,7 @@ class CategoryController extends Controller
         $request-> validate([
             'Name'=>'require'
         ]);
-        $categories = categories::create([
+        $categories = Category::create([
             'Name'=> $request->Name
         ]);
     }
@@ -69,6 +69,6 @@ class CategoryController extends Controller
     public function destroy(String $id)
     {
         //
-        categories::destroy($id);
+        Category::destroy($id);
     }
 }
