@@ -26,6 +26,7 @@ class ProductsController extends Controller
         //
     }
 
+
     public function store(Request $request)
     {
         try {
@@ -33,20 +34,28 @@ class ProductsController extends Controller
                 'Name' => 'required',
                 'Description' => 'required',
                 'Price' => 'required',
-                'Image' => 'required',
+                'Image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Ajusta las reglas de validación según tus necesidades
                 'IdcategoriesFK' => 'required'
             ]);
 
+            // Obtener el archivo de imagen del request
+            $image = $request->file('Image');
+
+            // Guardar la imagen en el directorio de almacenamiento
+            $path = $image->store('public/images');
+
+            // Guardar el producto en la base de datos junto con la ruta de la imagen
             $product = Products::create([
                 'Name' => $request->Name,
                 'Description' => $request->Description,
                 'Price' => $request->Price,
-                'Image' => $request->Image,
+                'Image' => $path, // Almacenar la ruta de la imagen en lugar del nombre del archivo
                 'IdcategoriesFK' => $request->IdcategoriesFK
             ]);
-            return response()->json(["succes" => 'product stored: '. $product], 200);
+
+            return response()->json(["success" => 'Producto almacenado: ' . $product], 200);
         } catch (Exception $e) {
-            return response()->json(['error' => 'An error ocurred when trying to store: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Se produjo un error al intentar almacenar: ' . $e->getMessage()], 500);
         }
     }
 
