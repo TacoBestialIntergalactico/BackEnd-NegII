@@ -8,19 +8,12 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
         $products = Products::all();
         return response()->json($products);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
@@ -59,12 +52,14 @@ class ProductsController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Products $products)
+    public function show($id)
     {
-        //
+        try {
+            $product = Products::findOrFail($id);
+            return response()->json($product);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Se produjo un error al intentar mostrar: ' . $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -99,7 +94,7 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         try {
             Products::destroy($id);
