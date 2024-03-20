@@ -78,19 +78,10 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         try {
             $product = Products::findOrFail($id);
-
-            $request->validate([
-                'Name' => 'required',
-                'Description' => 'required',
-                'Price' => 'required',
-                'Image' => 'required',
-                'IdcategoriesFK' => 'required'
-            ]);
-
             $product->update([
                 'Name' => $request->Name,
                 'Description' => $request->Description,

@@ -29,7 +29,7 @@ Route::post('/storeCategory', [CategoryController::class, 'store']);
 Route::post('/storeProducts', [ProductsController::class, 'store']);
 Route::post('/storeShopping', [ShoppingController::class, 'store']);
 
-Route::put('/updateProducts', [ProductsController::class, 'update']);
+Route::put('/UpdateProduct/{id}/update', [ProductsController::class, 'update']);
 
 Route::post('/destroyCategory', [CategoryController::class, 'destroy']);
 Route::post('/destroyProducts', [ProductsController::class, 'destroy']);
