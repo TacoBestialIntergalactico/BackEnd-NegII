@@ -34,7 +34,7 @@ class ProductsController extends Controller
                 'Name' => 'required',
                 'Description' => 'required',
                 'Price' => 'required',
-                'Image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Ajusta las reglas de validación según tus necesidades
+                'Image' => 'required|image|mimes:jpeg,png,jpg,gif|max:30720', // Ajusta las reglas de validación según tus necesidades
                 'IdcategoriesFK' => 'required'
             ]);
 
