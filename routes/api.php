@@ -29,8 +29,9 @@ Route::post('/storeCategory', [CategoryController::class, 'store']);
 Route::post('/storeProducts', [ProductsController::class, 'store']);
 Route::post('/storeShopping', [ShoppingController::class, 'store']);
 
+route::post('/update/{id}/updateProduct',[ProductsController::class, 'update']);
 Route::post('/destroyCategory', [CategoryController::class, 'destroy']);
-Route::post('/destroyProducts', [ProductsController::class, 'destroy']);
+Route::post('/destroyProducts/{id}', [ProductsController::class, 'destroy']);
 Route::post('/destroyShopping', [ShoppingController::class, 'destroy']);
 
 

@@ -38,17 +38,18 @@ class ProductsController extends Controller
             ]);
 
             $products = products::create([
-                'Name' => $request->Name,
-                'Description' => $request->Description,
-                'Price' => $request->Price,
-                'Image' => $request->Image,
-                'IdcategoriesFK' => $request->IdcategoriesFK
+                'Name' => $request->json('Name'),
+                'Description' => $request->json('Description'),
+                'Price' => $request->json('Price'),
+                'Image' => $request->json('Image'),
+                'IdcategoriesFK' => $request->json('IdcategoriesFK')
             ]);
-            return response()->json(["succes" => 'product stored: ' + $products], 200);
+            return response()->json(["succes" => 'product stored: ' . $products], 200);
         } catch (Exception $e) {
-            return response()->json(['error' => 'An error ocurred when trying to store: ' + $e->getMessage()], 500);
+            return response()->json(['error' => 'An error ocurred when trying to store: ' . $e->getMessage()], 500);
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -73,14 +74,6 @@ class ProductsController extends Controller
     {
         try {
             $product = Products::findOrFail($id);
-
-            $request->validate([
-                'Name' => 'required',
-                'Description' => 'required',
-                'Price' => 'required',
-                'Image' => 'required',
-                'IdcategoriesFK' => 'required'
-            ]);
 
             $product->update([
                 'Name' => $request->Name,
