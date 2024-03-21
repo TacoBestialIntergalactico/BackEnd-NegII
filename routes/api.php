@@ -23,15 +23,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/indexCategory', [CategoryController::class, 'index']);
 Route::get('/indexProducts', [ProductsController::class, 'index']);
+Route::get('/Product/{id}', [ProductsController::class, 'show']);
 Route::get('/indexShopping', [ShoppingController::class, 'index']);
 
 Route::post('/storeCategory', [CategoryController::class, 'store']);
 Route::post('/storeProducts', [ProductsController::class, 'store']);
 Route::post('/storeShopping', [ShoppingController::class, 'store']);
 
-route::post('/update/{id}/updateProduct',[ProductsController::class, 'update']);
+Route::post('/updateProduct/{id}/update', [ProductsController::class, 'update']);
+
 Route::post('/destroyCategory', [CategoryController::class, 'destroy']);
 Route::post('/destroyProducts/{id}', [ProductsController::class, 'destroy']);
 Route::post('/destroyShopping', [ShoppingController::class, 'destroy']);
-
-

@@ -11,8 +11,8 @@ class Products extends Model
 {
     use HasFactory;
     protected $fillable = ['Name', 'Description', 'Price', 'Image', 'IdcategoriesFK'];
+    public $timestamps = false;
 
-    public $timestamps= false;
 
     public function Products(): BelongsTo
     {

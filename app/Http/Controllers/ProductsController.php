@@ -77,7 +77,6 @@ class ProductsController extends Controller
     {
         try {
             $product = Products::findOrFail($id);
-
             $product->update([
                 'Name' => $request->Name,
                 'Description' => $request->Description,
