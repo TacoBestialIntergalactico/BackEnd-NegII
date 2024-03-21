@@ -35,7 +35,7 @@ class ProductsController extends Controller
             $image = $request->file('Image');
 
             // Guardar la imagen en el directorio de almacenamiento
-            $path = $image->store('public/images');
+            $path = $image->store('images');
 
             // Guardar el producto en la base de datos junto con la ruta de la imagen
             $product = Products::create([
@@ -77,6 +77,7 @@ class ProductsController extends Controller
     {
         try {
             $product = Products::findOrFail($id);
+
             $product->update([
                 'Name' => $request->Name,
                 'Description' => $request->Description,
