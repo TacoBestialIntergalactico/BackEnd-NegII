@@ -35,7 +35,7 @@ class ProductsController extends Controller
             $image = $request->file('Image');
 
             // Guardar la imagen en el directorio de almacenamiento
-            $path = $image->store('images');
+            $path = $image->store('');
 
             // Guardar el producto en la base de datos junto con la ruta de la imagen
             $product = Products::create([
