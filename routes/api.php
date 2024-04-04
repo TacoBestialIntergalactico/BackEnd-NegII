@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ShoppingController;
+use App\Http\Controllers\UserAuthentication;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +37,9 @@ Route::post('/update/{id}/updateProduct', [ProductsController::class, 'update'])
 Route::post('/destroyCategory', [CategoryController::class, 'destroy']);
 Route::post('/destroyProducts/{id}', [ProductsController::class, 'destroy']);
 Route::post('/destroyShopping', [ShoppingController::class, 'destroy']);
+
+
+//user
+Route::get('/indexUser', [UserAuthentication::class, 'index']);
+Route::post('/login', [UserAuthentication::class, 'login']);
+Route::post('/UserRegister', [UserAuthentication::class, 'storeRegister']);
