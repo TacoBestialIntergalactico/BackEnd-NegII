@@ -42,4 +42,9 @@ Route::post('/destroyShopping', [ShoppingController::class, 'destroy']);
 //user
 Route::get('/indexUser', [UserAuthentication::class, 'index']);
 Route::post('/login', [UserAuthentication::class, 'login']);
+
 Route::post('/UserRegister', [UserAuthentication::class, 'storeRegister']);
+
+
+
+Route::middleware('auth:api')->get('/User', [UserAuthentication::class, 'User']);

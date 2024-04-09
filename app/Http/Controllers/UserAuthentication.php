@@ -105,4 +105,25 @@ class UserAuthentication extends Controller
     {
         //
     }
+    public function User(){
+        try{
+            $user = auth()->user();
+
+            // Verifica si el usuario está autenticado
+            if ($user) {
+                return response()->json([
+                    'id'=> $user->id,
+                    'email' => $user->email,
+                    'name' => $user->name,
+                    'role'=>$user->role,
+                    // Otros datos del usuario si es necesario
+                ]);
+            }
+    
+             
+        }catch(Exception $e){
+            return response()->json(['error' => 'Se produjo un error al obtener usuario: ' . $e->getMessage()], 500);
+           }
+        
+    }
 }
