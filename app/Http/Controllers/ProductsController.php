@@ -77,12 +77,13 @@ class ProductsController extends Controller
     {
         try {
             $product = Products::findOrFail($id);
+            $imagePath = $request->file('Image')->store('');
 
             $product->update([
                 'Name' => $request->Name,
                 'Description' => $request->Description,
                 'Price' => $request->Price,
-                'Image' => $request->Image,
+                'Image' => $imagePath,
                 'IdcategoriesFK' => $request->IdcategoriesFK
             ]);
 
