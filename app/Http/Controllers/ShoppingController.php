@@ -13,7 +13,7 @@ class ShoppingController extends Controller
     public function index()
     {
         //
-        $shoppings=shoppings::all();
+        $shoppings=Shopping::all();
         return $shoppings;
 
     }
@@ -37,7 +37,7 @@ class ShoppingController extends Controller
             'IdUserFk'=>'required',
             'IdProductFk'=>'required'
         ]);
-        $shoppings=shoppings::create([
+        $shoppings=Shopping::create([
             'Quantity'=>$request->Quantity,
             'IdUserFk'=>$request->IdUserFk,
             'IdProductFk'=>$request->IdProductFk
@@ -73,6 +73,6 @@ class ShoppingController extends Controller
      */
     public function destroy(String $id)
     {
-        shoppings::destroy($id);
+        Shopping::destroy($id);
     }
 }

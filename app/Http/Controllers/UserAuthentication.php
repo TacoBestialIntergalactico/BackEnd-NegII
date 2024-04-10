@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Exception;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -31,7 +32,7 @@ class UserAuthentication extends Controller
      * Store a newly created resource in storage.
      */
     public function login(Request $request){
-        
+
             $request->validate([
                 'email'=>'required',
                 'password'=>'required'
@@ -40,16 +41,16 @@ class UserAuthentication extends Controller
             if(!$user|| !Hash::check($request->password, $user->password)){
                 return response([
                     'message'=>'The provided credential are incorrect'
-    
+
                 ], 401);
             }
             $token=$user->createToken('auth_token')->accessToken;
-            
+
             return response([
                 'token'=> $token
             ]);
-                
-        
+
+
     }
     public function storeRegister(Request $request)
     {
@@ -59,14 +60,14 @@ class UserAuthentication extends Controller
                 'username' => 'required',
                 'email' => 'required',
                 'password' => 'required',
-                'confirmPassword' => 'required|same:password' 
-            
+                'confirmPassword' => 'required|same:password'
+
             ]);
 
             $user = User::create([
-                'username' => $request->username, 
+                'username' => $request->username,
                 'email' => $request->email,
-                'password' => Hash::make($request->password), 
+                'password' => Hash::make($request->password),
             ]);
             return response("Successful registration"); // Cambiado de 'respose' a 'response'
         } catch (Exception $e) {
@@ -104,5 +105,26 @@ class UserAuthentication extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function User(){
+        try{
+            $user = auth()->user();
+
+            // Verifica si el usuario está autenticado
+            if ($user) {
+                return response()->json([
+                    'id'=> $user->id,
+                    'email' => $user->email,
+                    'name' => $user->name,
+                    'role'=>$user->role,
+                    // Otros datos del usuario si es necesario
+                ]);
+            }
+
+
+        }catch(Exception $e){
+            return response()->json(['error' => 'Se produjo un error al obtener usuario: ' . $e->getMessage()], 500);
+           }
+
     }
 }
