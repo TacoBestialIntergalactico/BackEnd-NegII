@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Shopping;
 
 class CartController extends Controller
 {
@@ -15,7 +16,7 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function addToCart(Request $request)
+    public function addToCart(Request $request)
     {
         $request->validate([
             'Quantity' => 'required|integer|min:1',
@@ -32,4 +33,71 @@ class CartController extends Controller
 
         return response()->json(['message' => 'Producto agregado al carrito'], 201);
     }
+
+    public function getCartProducts($userId)
+    {
+        // Obtener los registros del carrito para el usuario dado
+        $cartEntries = Cart::where('IdUserFk', $userId)->get();
+
+        // Array para almacenar los detalles completos de los productos del carrito
+        $cartProducts = [];
+
+        // Iterar sobre cada entrada del carrito
+        foreach ($cartEntries as $cartEntry) {
+            // Obtener los detalles completos del producto asociado a esta entrada del carrito
+            $product = $cartEntry->product()->first();
+
+            // Verificar si se encontró el producto
+            if ($product) {
+                // Agregar los detalles del producto al array de productos del carrito
+                $cartProducts[] = [
+                    'cart_id' => $cartEntry->id, // ID de la tabla carts
+                    'product' => $product
+                ];
+            }
+        }
+
+        // Devolver los detalles completos de los productos del carrito
+        return response()->json($cartProducts);
+    }
+
+    public function removeProductFromCart($cartId)
+    {
+        // Aquí puedes implementar la lógica para eliminar el producto del carrito
+        // Por ejemplo:
+        Cart::where('id', $cartId)->delete();
+
+        // Puedes devolver una respuesta apropiada según el resultado de la eliminación
+        return response()->json(['message' => 'Producto eliminado del carrito con éxito']);
+    }
+
+    public function moveCartsToShoppings(Request $request)
+    {
+        logger($request->all());
+        // Validar la solicitud para asegurarse de que contiene el campo cartIds
+        $request->validate([
+            'cartId' => 'required',
+        ]);
+
+        $cartId = $request->cartId;
+
+        // Obtener los registros de la tabla carts basados en los cart_ids proporcionados
+        $cart = Cart::where('id', $cartId)->get();
+
+        // Iterar sobre los registros de carts y crear registros correspondientes en la tabla shoppings
+        Shopping::create([
+            'Quantity' => $cart->Quantity,
+            'IdUserFk' => $cart->IdUserFk,
+            'IdProductFk' => $cart->IdProductFk,
+        ]);
+
+
+        // Eliminar los registros de carts una vez movidos a shoppings
+        Cart::where('id', $cartId)->delete();
+
+
+        // Devolver una respuesta de éxito
+        return response()->json(['message' => 'Los registros de carts se han movido a shoppings exitosamente']);
+    }
+
 }

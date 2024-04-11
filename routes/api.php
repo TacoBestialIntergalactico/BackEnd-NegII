@@ -52,4 +52,7 @@ Route::middleware('auth:api')->get('/User', [UserAuthentication::class, 'User'])
 
 //ShoppingCart
 Route::post('/addToCart', [CartController::class, 'addToCart']);
+Route::get('/Cart/{userId}/products', [CartController::class, 'getCartProducts']);
+Route::delete('/Cart/{cartId}/delete', [CartController::class, 'removeProductFromCart']);
+Route::post('/moveCartsToShoppings', [CartController::class, 'moveCartsToShoppings']);
 
