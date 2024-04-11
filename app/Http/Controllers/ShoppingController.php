@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Shopping;
 use Illuminate\Http\Request;
 
@@ -10,12 +11,17 @@ class ShoppingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(String $id)
     {
-        //
-        $shoppings=Shopping::all();
-        return $shoppings;
+        $shoppings = Shopping::select('id', 'Quantity', 'IdUserFk', 'IdProductFk')->with(['user' => function ($query) {
+            $query->select('id', 'username');
+        }, 'product' => function ($query) {
+            $query->select('id', 'Name', 'Description', 'Price');
+        }])
+            ->where('IdUserFk', $id)
+            ->get();
 
+        return response()->json($shoppings);
     }
 
     /**
@@ -33,14 +39,14 @@ class ShoppingController extends Controller
     {
         //
         $request->validate([
-            'Quantity'=>'required',
-            'IdUserFk'=>'required',
-            'IdProductFk'=>'required'
+            'Quantity' => 'required',
+            'IdUserFk' => 'required',
+            'IdProductFk' => 'required'
         ]);
-        $shoppings=Shopping::create([
-            'Quantity'=>$request->Quantity,
-            'IdUserFk'=>$request->IdUserFk,
-            'IdProductFk'=>$request->IdProductFk
+        $shoppings = Shopping::create([
+            'Quantity' => $request->Quantity,
+            'IdUserFk' => $request->IdUserFk,
+            'IdProductFk' => $request->IdProductFk
         ]);
     }
 

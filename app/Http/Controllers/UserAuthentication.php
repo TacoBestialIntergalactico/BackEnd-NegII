@@ -115,7 +115,7 @@ class UserAuthentication extends Controller
                 return response()->json([
                     'id'=> $user->id,
                     'email' => $user->email,
-                    'name' => $user->name,
+                    'name' => $user->username,
                     'role'=>$user->role,
                     // Otros datos del usuario si es necesario
                 ]);
