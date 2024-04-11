@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ShoppingController;
 use App\Http\Controllers\UserAuthentication;
+use App\Http\Controllers\CartController;
 
 
 /*
@@ -48,3 +49,7 @@ Route::post('/UserRegister', [UserAuthentication::class, 'storeRegister']);
 
 
 Route::middleware('auth:api')->get('/User', [UserAuthentication::class, 'User']);
+
+//ShoppingCart
+Route::post('/addToCart', [CartController::class, 'addToCart']);
+
