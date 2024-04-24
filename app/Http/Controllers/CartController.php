@@ -71,20 +71,12 @@ class CartController extends Controller
         return response()->json(['message' => 'Producto eliminado del carrito con éxito']);
     }
 
-    public function moveCartsToShoppings(Request $request)
+    public function moveCartsToShoppings($cartId)
     {
-        logger($request->all());
-        // Validar la solicitud para asegurarse de que contiene el campo cartIds
-        $request->validate([
-            'cartId' => 'required',
-        ]);
+        // Obtener el registro del carrito basado en el cart_id proporcionado
+        $cart = Cart::findOrFail($cartId);
 
-        $cartId = $request->cartId;
-
-        // Obtener los registros de la tabla carts basados en los cart_ids proporcionados
-        $cart = Cart::where('id', $cartId)->get();
-
-        // Iterar sobre los registros de carts y crear registros correspondientes en la tabla shoppings
+        // Crear un registro correspondiente en la tabla shoppings
         Shopping::create([
             'Quantity' => $cart->Quantity,
             'IdUserFk' => $cart->IdUserFk,
